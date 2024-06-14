@@ -1,0 +1,172 @@
+import React, {useState, useEffect} from "react";
+import { NativeBaseProvider, Actionsheet, useDisclose } from "native-base";
+import PlayerButton from "../component/PlayerButton";
+import { FontAwesome, Ionicons, Entypo } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { Image, View, Text, StyleSheet, Dimensions } from "react-native";
+import { useFonts } from "expo-font";
+import { DynaPuff_500Medium } from "@expo-google-fonts/dynapuff";
+import { Pacifico_400Regular } from "@expo-google-fonts/pacifico";
+import { Audio } from "expo-av";
+import Slider from "@react-native-community/slider";
+const {width} = Dimensions.get('window')
+const Detail = ({route, navigation}) => {
+    const data = route.params.data;
+    const url = data.url;
+    const [isPlaying, setPlay] = useState(false);
+    const [sound, setSound] = useState();
+    const playSound = async () =>{
+        const { sound } = await Audio.Sound.createAsync(url);
+        setSound(sound);
+        await sound.playAsync();
+    }
+
+    const handlePlayPause = async () =>{
+        if(isPlaying == false)
+        {
+            await playSound();
+            setPlay((current) => !current);
+        }
+        if(isPlaying == true)
+        {
+            await sound.stopAsync();
+            setPlay((current) => !current);
+        }
+    }
+    useEffect(() => {
+        return sound
+          ? () => {
+              sound.unloadAsync();
+            }
+          : undefined;
+      }, [sound]);
+    const{
+        isOpen,
+        onOpen,
+        onClose
+    } = useDisclose();
+    let [fontLoaded] = useFonts({
+        DynaPuff_500Medium,
+        Pacifico_400Regular,
+    });
+    if (!fontLoaded) {
+        return null;
+    } 
+    return(
+        <>
+        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, width: '100%', height: '100%' }}>
+            <LinearGradient colors={['black', '#0a232b', '#0d2e38', '#04363b', '#096973']} style={{ width: '100%', height: '100%' }}></LinearGradient>
+        </View>
+        <View style = {style.imageContainer}>
+            <Image
+            source = {data.artwork}
+            resizeMode = 'cover'
+            style = {style.image}>
+            </Image>
+        </View>
+        <View style = {style.titleContainer}>
+            <Image 
+            source = {data.artwork}
+            style = {style.image2}></Image>
+            <View style = {style.discription}>
+                <Text style = {style.title}>
+                    {data.title}
+                </Text>
+                <Text style = {style.artist}>
+                    {data.artist}
+                </Text>
+            </View>
+        </View>
+        <View style = {style.playerContainer}>
+            <View style = {style.heartContainer}>
+            <Ionicons name="heart-outline" size={30} color="white" style = {{marginRight: 30}} />
+            <Ionicons name="md-download-outline" size={30} color="white" style = {{marginRight: 30}} />
+            <Entypo name="dots-three-vertical" size={25} color="white" style = {{marginTop: 6}}/>
+            </View>
+            <View style = {style.playerButton}>
+                <FontAwesome name="random" size={40} color="#38c930" style = {{marginTop: 30, marginRight: 30,}} />
+                <PlayerButton iconType = {isPlaying? 'PAUSE' : 'PLAY'} onPress = {handlePlayPause}></PlayerButton>
+            </View>
+        </View>
+        <NativeBaseProvider>
+        <Actionsheet hideDragIndicator isOpen = {isOpen} onClose = {onClose}>
+            <Actionsheet.Content >
+                <Text>
+                    <Slider style = {style.slider}>
+
+                    </Slider>
+                </Text>
+            </Actionsheet.Content>
+        </Actionsheet>
+        </NativeBaseProvider>
+        </>
+    )
+}
+
+const style = StyleSheet.create({
+    heartContainer: {
+        flexDirection: 'row',
+        display: 'flex',
+        marginTop: 33,
+        marginLeft: 34,
+        marginRight: 0,
+    },
+    playerContainer:{
+        width: width,
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    playerButton: {
+        justifyContent: 'space-between',
+        display: 'flex',
+        flexDirection: 'row',
+        marginLeft: '42%',
+    },
+    discription: {
+        marginLeft: 20,
+    },
+    artist: {
+        textShadowOffset: {width: -1, height: 5},
+        textShadowColor: '#2f5e9c',
+        textShadowRadius: 20,
+        color: '#a1c6f7',
+        fontSize: 30,
+        fontFamily: 'Pacifico_400Regular',
+    },
+    title: {
+        textShadowOffset: {width: -1, height: 5},
+        textShadowColor: '#2f5e9c',
+        textShadowRadius: 20,
+        color: '#b1f2ee',
+        fontSize: 50,
+        fontFamily: 'DynaPuff_500Medium',
+    },
+    titleContainer: {
+        marginTop: 50, 
+        width: width,
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    imageContainer: {
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: width,
+        height: 100,
+    },
+    image: {
+        height: '100%',
+    },
+    image2: {
+        marginLeft: 30,
+        width: 200,
+        height: 200,
+    },
+    slider:{
+        width: width - 10, 
+        marginBottom: 20,
+        transform: [{scaleY: 1}],
+      },
+})
+
+export default Detail;

@@ -1,0 +1,37 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "Email": "nguyenbaox2003@gmail.com",
+      "Password": "nguyenbao17102003",
+      "Firstname": "Nguyen",
+      "Lastname": "Nguyen",
+      "Background": null,
+      "Avatar": null,
+      "Darkmode": true,
+      "Favourite": []
+    },
+    {
+      "id": 2,
+      "Email": "1721031481@gmail.com",
+      "Password": "DnTu6iP91@",
+      "Firstname": "Nguyen",
+      "Lastname": "Nguyen",
+      "Background": null,
+      "Avatar": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540nguyenbaox2003%252FShoppingApp/ImagePicker/982f67ec-2ad6-4159-992a-e55e34e8d34c.png",
+      "Darkmode": true,
+      "Favourite": []
+    },
+    {
+      "id": 3,
+      "Email": "1",
+      "Password": "1",
+      "Firstname": "Bao",
+      "Lastname": "Nguyen",
+      "Background": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540nguyenbaox2003%252FShoppingApp/ImagePicker/41c7ce1c-d27f-4d91-87da-1b7d9fb55b9f.png",
+      "Avatar": "file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540nguyenbaox2003%252FShoppingApp/ImagePicker/79d1ed51-b94e-4457-8297-d02a0cf1fd31.jpeg",
+      "Darkmode": true,
+      "Favourite": []
+    }
+  ]
+}
